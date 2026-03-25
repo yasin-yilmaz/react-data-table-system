@@ -117,7 +117,7 @@ export const userColumns: ColumnDef<TUser>[] = [
     sortingFn: "datetime",
     cell: ({ row }) => {
       return (
-        <span className="tabular-nums">
+        <span className="font-mono tabular-nums">
           {printDate(row.original.birthDate)}
         </span>
       );
