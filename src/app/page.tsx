@@ -1,10 +1,13 @@
-import { Button } from "@/components/ui/button";
-import UsersTable from "@/modules/user-table/UsersTable";
+import { Suspense } from "react";
+
+import UsersTable from "@/components/modules/user-table/UsersTable";
 
 const HomePage = () => {
   return (
     <main className="container mx-auto py-10">
-      <UsersTable />
+      <Suspense fallback={<div>Loading table...</div>}>
+        <UsersTable />
+      </Suspense>
     </main>
   );
 };

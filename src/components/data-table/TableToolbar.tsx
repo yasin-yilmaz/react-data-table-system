@@ -3,6 +3,8 @@
 import { RotateCcw, SlidersHorizontal } from "lucide-react";
 import type { Table } from "@tanstack/react-table";
 
+import UserFilters from "@/components/modules/user-table/UserFilters";
+import UserSearch from "@/components/modules/user-table/UserSearch";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -10,8 +12,6 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import UserSearch from "../../modules/user-table/UserSearch";
-import UserFilters from "../../modules/user-table/UserFilters";
 
 type Props<TData> = {
   table: Table<TData>;

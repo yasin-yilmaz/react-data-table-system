@@ -4,11 +4,10 @@ import Link from "next/link";
 import type { ColumnDef } from "@tanstack/react-table";
 
 import ColumnHeader from "@/components/data-table/TableColumnHeader";
+import UserActionCell from "@/components/modules/user-table/UserActions";
+import { Checkbox } from "@/components/ui/checkbox";
 
 import { printDate } from "@/helpers/date.helper";
-
-import { Checkbox } from "../../components/ui/checkbox";
-import UserActionCell from "./UserActions";
 
 import type { TUser } from "@/types/User.type";
 
@@ -39,7 +38,6 @@ export const userColumns: ColumnDef<TUser>[] = [
   {
     accessorKey: "id",
     header: ({ column }) => <ColumnHeader column={column} title="ID" />,
-
     size: 30,
     enableHiding: false,
   },
@@ -56,6 +54,9 @@ export const userColumns: ColumnDef<TUser>[] = [
       return <span className="line-clamp-1">{`${firstName} ${lastName}`}</span>;
     },
     enableHiding: false,
+    meta: {
+      sortKey: "firstName",
+    },
   },
 
   {
@@ -115,7 +116,6 @@ export const userColumns: ColumnDef<TUser>[] = [
     header: ({ column }) => <ColumnHeader column={column} title="Birth Date" />,
     sortingFn: "datetime",
     cell: ({ row }) => {
-      console.log(row.original.birthDate);
       return (
         <span className="tabular-nums">
           {printDate(row.original.birthDate)}

@@ -4,6 +4,10 @@ import { useState } from "react";
 
 import { Copy, Eye, MoreVertical, Pencil, Trash2 } from "lucide-react";
 
+import UserCloneDialog from "@/components/modules/user-table/user-table-dialog/UserCloneDialog";
+import UserDeleteDialog from "@/components/modules/user-table/user-table-dialog/UserDeleteDialog";
+import UserDetailsDialog from "@/components/modules/user-table/user-table-dialog/UserDetailsDialog";
+import UserEditDialog from "@/components/modules/user-table/user-table-dialog/UserEditDialog";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -12,11 +16,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
-import UserCloneDialog from "@/modules/user-table/user-table-dialog/UserCloneDialog";
-import UserDeleteDialog from "@/modules/user-table/user-table-dialog/UserDeleteDialog";
-import UserDetailsDialog from "@/modules/user-table/user-table-dialog/UserDetailsDialog";
-import UserEditDialog from "@/modules/user-table/user-table-dialog/UserEditDialog";
 
 import type { TUser } from "@/types/User.type";
 

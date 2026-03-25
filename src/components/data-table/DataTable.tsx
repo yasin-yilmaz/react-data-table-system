@@ -13,8 +13,6 @@ import {
   VisibilityState,
 } from "@tanstack/react-table";
 
-import { cn } from "@/lib/utils";
-
 import TableMessageRow from "@/components/data-table/TableMessageRow";
 import TablePagination from "@/components/data-table/TablePagination";
 import TableToolbar from "@/components/data-table/TableToolbar";
@@ -62,6 +60,7 @@ const DataTable = <TData,>({
   leftPinnedColumnIds = [],
   rightPinnedColumnIds = [],
 }: Props<TData>) => {
+  "use no memo";
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
 
   const table = useReactTable({
@@ -82,29 +81,16 @@ const DataTable = <TData,>({
       },
     },
     getCoreRowModel: getCoreRowModel(),
-
     onColumnVisibilityChange: setColumnVisibility,
     onGlobalFilterChange,
-
-    onSortingChange: (updater) => {
-      const nextSorting =
-        typeof updater === "function" ? updater(sorting) : updater;
-
-      onSortingChange(nextSorting);
-      onPaginationChange({
-        ...pagination,
-        pageIndex: 0,
-      });
-    },
+    onSortingChange,
     onPaginationChange,
-
     onColumnFiltersChange,
     enableSortingRemoval: true,
     manualFiltering: true,
     manualPagination: true,
     manualSorting: true,
   });
-
   const rows = table.getRowModel().rows;
   const colSpan = table.getAllLeafColumns().length;
 

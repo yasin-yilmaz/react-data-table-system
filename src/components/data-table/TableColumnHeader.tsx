@@ -1,8 +1,9 @@
 "use client";
 
-import { Column } from "@tanstack/react-table";
-import { Button } from "../ui/button";
 import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
+import { Column } from "@tanstack/react-table";
+
+import { Button } from "@/components/ui/button";
 
 type Props<TData> = {
   column: Column<TData>;
@@ -15,7 +16,7 @@ const ColumnHeader = <TData,>({ column, title }: Props<TData>) => {
   const sortHandler = () => {
     if (!sorted) {
       column.toggleSorting(false);
-      return null;
+      return;
     }
 
     if (sorted === "asc") {
@@ -30,7 +31,7 @@ const ColumnHeader = <TData,>({ column, title }: Props<TData>) => {
     <Button
       variant={"link"}
       size="sm"
-      className="h-8 w-full cursor-pointer flex justify-start gap-2 font-medium px-0"
+      className="flex h-8 w-full cursor-pointer justify-start gap-2 px-0 font-medium"
       onClick={sortHandler}
     >
       <span>{title}</span>
