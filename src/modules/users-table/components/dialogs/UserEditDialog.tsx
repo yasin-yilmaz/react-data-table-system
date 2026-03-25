@@ -14,7 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-import type { TUser } from "@/types/User.type";
+import type { TUser } from "@/modules/users-table/types/User.type";
 
 type Props = {
   user: TUser;

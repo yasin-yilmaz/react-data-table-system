@@ -25,6 +25,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+import { TFilterDef } from "@/types/Table.type";
+
 type Props<TData> = {
   columns: ColumnDef<TData>[];
   data: TData[];
@@ -41,6 +43,7 @@ type Props<TData> = {
   minSearchLength?: number;
   leftPinnedColumnIds?: string[];
   rightPinnedColumnIds?: string[];
+  filters?: TFilterDef[];
 };
 
 const DataTable = <TData,>({
@@ -59,6 +62,7 @@ const DataTable = <TData,>({
   minSearchLength,
   leftPinnedColumnIds = [],
   rightPinnedColumnIds = [],
+  filters,
 }: Props<TData>) => {
   "use no memo";
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -115,6 +119,7 @@ const DataTable = <TData,>({
         searchValue={globalFilter}
         onSearchChange={onGlobalFilterChange}
         minSearchLength={minSearchLength}
+        filters={filters}
         onReset={() => {
           onGlobalFilterChange("");
           onColumnFiltersChange([]);

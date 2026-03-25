@@ -4,12 +4,11 @@ import Link from "next/link";
 import type { ColumnDef } from "@tanstack/react-table";
 
 import ColumnHeader from "@/components/data-table/TableColumnHeader";
-import UserActionCell from "@/components/modules/user-table/UserActions";
 import { Checkbox } from "@/components/ui/checkbox";
 
 import { printDate } from "@/helpers/date.helper";
-
-import type { TUser } from "@/types/User.type";
+import UserActionCell from "@/modules/users-table/components/UserActionCell";
+import type { TUser } from "@/modules/users-table/types/User.type";
 
 export const userColumns: ColumnDef<TUser>[] = [
   {

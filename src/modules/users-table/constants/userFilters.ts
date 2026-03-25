@@ -1,6 +1,8 @@
 import { parseAsString } from "nuqs";
 
-export const USER_FILTER_DEFS = [
+import { TFilterDef } from "@/types/Table.type";
+
+export const USER_FILTER_DEFS: TFilterDef[] = [
   {
     id: "role",
     queryKey: "role",

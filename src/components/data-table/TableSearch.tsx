@@ -4,24 +4,22 @@ import { Search } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
 
-type TProps = {
+type Props = {
   value: string;
   onChange: (value: string) => void;
   minSearchLength?: number;
   placeholder?: string;
 };
 
-const UserSearch = ({
+const TableSearch = ({
   value,
   onChange,
   minSearchLength = 0,
   placeholder,
-}: TProps) => {
+}: Props) => {
   const resolvedPlaceholder =
     placeholder ??
-    (minSearchLength > 0
-      ? `Search users... (min ${minSearchLength})`
-      : "Search users...");
+    (minSearchLength > 0 ? `Search... (min ${minSearchLength})` : "Search...");
 
   return (
     <div className="relative w-full max-w-sm">
@@ -36,4 +34,4 @@ const UserSearch = ({
   );
 };
 
-export default UserSearch;
+export default TableSearch;

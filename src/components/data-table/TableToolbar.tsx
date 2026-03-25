@@ -3,8 +3,8 @@
 import { RotateCcw, SlidersHorizontal } from "lucide-react";
 import type { Table } from "@tanstack/react-table";
 
-import UserFilters from "@/components/modules/user-table/UserFilters";
-import UserSearch from "@/components/modules/user-table/UserSearch";
+import TableFilters from "@/components/data-table/TableFilters";
+import TableSearch from "@/components/data-table/TableSearch";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -13,20 +13,24 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+import { TFilterDef } from "@/types/Table.type";
+
 type Props<TData> = {
   table: Table<TData>;
   searchValue: string;
   onSearchChange: (value: string) => void;
   minSearchLength?: number;
   onReset?: () => void;
+  filters?: TFilterDef[];
 };
 
-const DataGridToolbar = <TData,>({
+const TableToolbar = <TData,>({
   table,
   searchValue,
   onSearchChange,
   minSearchLength,
   onReset,
+  filters,
 }: Props<TData>) => {
   const hasActiveState =
     !!searchValue ||
@@ -50,13 +54,13 @@ const DataGridToolbar = <TData,>({
   return (
     <div className="flex items-center justify-between gap-3 py-4">
       <div className="flex items-center gap-2">
-        <UserSearch
+        <TableSearch
           value={searchValue}
           onChange={onSearchChange}
           minSearchLength={minSearchLength}
         />
 
-        <UserFilters table={table} />
+        <TableFilters table={table} filters={filters} />
       </div>
 
       <div className="flex items-center gap-2">
@@ -101,4 +105,4 @@ const DataGridToolbar = <TData,>({
   );
 };
 
-export default DataGridToolbar;
+export default TableToolbar;

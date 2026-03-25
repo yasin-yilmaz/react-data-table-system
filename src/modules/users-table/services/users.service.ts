@@ -1,4 +1,7 @@
-import { TUsersQueryParams, TUsersResponse } from "@/types/User.type";
+import {
+  TUsersQueryParams,
+  TUsersResponse,
+} from "@/modules/users-table/types/User.type";
 
 const BASE_URL = "https://dummyjson.com/users";
 

@@ -1,7 +1,6 @@
 import { Table } from "@tanstack/react-table";
 
 import { setSingleFilter } from "@/lib/utils";
-import { USER_FILTER_DEFS } from "@/constants/userFilters";
 
 import {
   Select,
@@ -11,15 +10,22 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+import { TFilterDef } from "@/types/Table.type";
+
 type Props<TData> = {
   table: Table<TData>;
+  filters?: TFilterDef[];
 };
 
-const UserFilters = <TData,>({ table }: Props<TData>) => {
-  const filters = table.getState().columnFilters;
+const TableFilters = <TData,>({ table, filters = [] }: Props<TData>) => {
+  if (!filters.length) return null;
+
+  const columnFilters = table.getState().columnFilters;
 
   const getFilterValue = (id: string) => {
-    return (filters.find((filter) => filter.id === id)?.value as string) ?? "";
+    return (
+      (columnFilters.find((filter) => filter.id === id)?.value as string) ?? ""
+    );
   };
 
   const changeFilter = (id: string, value: string | null) => {
@@ -31,7 +37,7 @@ const UserFilters = <TData,>({ table }: Props<TData>) => {
 
   return (
     <div className="flex items-center gap-2">
-      {USER_FILTER_DEFS.map((filter) => {
+      {filters.map((filter) => {
         const currentValue = getFilterValue(filter.id);
 
         return (
@@ -63,4 +69,4 @@ const UserFilters = <TData,>({ table }: Props<TData>) => {
   );
 };
 
-export default UserFilters;
+export default TableFilters;

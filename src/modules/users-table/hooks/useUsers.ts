@@ -1,7 +1,7 @@
-import getUsers from "@/services/users.service";
 import { useQuery } from "@tanstack/react-query";
 
-import type { TUsersQueryParams } from "@/types/User.type";
+import getUsers from "@/modules/users-table/services/users.service";
+import type { TUsersQueryParams } from "@/modules/users-table/types/User.type";
 
 const useUsers = ({
   pageIndex,

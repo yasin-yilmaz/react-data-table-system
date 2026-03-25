@@ -10,19 +10,19 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-import type { TUser } from "@/types/User.type";
+import type { TUser } from "@/modules/users-table/types/User.type";
 
-type TProps = {
+type Props = {
   user: TUser;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 };
 
-const UserDeleteDialog = ({ user, open, onOpenChange }: TProps) => {
+const UserCloneDialog = ({ user, open, onOpenChange }: Props) => {
   const fullName = [user.firstName, user.lastName].filter(Boolean).join(" ");
 
   const confirmHandler = () => {
-    console.log("Delete user (simulation):", user);
+    console.log("Clone user (simulation):", user);
     onOpenChange(false);
   };
 
@@ -30,22 +30,20 @@ const UserDeleteDialog = ({ user, open, onOpenChange }: TProps) => {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-120">
         <DialogHeader>
-          <DialogTitle>Delete User</DialogTitle>
+          <DialogTitle>Clone User</DialogTitle>
           <DialogDescription>
-            This action is simulated only. The user will not be deleted from the
+            This action is simulated only. No new user will be created on the
             backend.
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-2 rounded-lg border p-4 text-sm">
           <p>
-            Are you sure you want to delete{" "}
-            <span className="font-medium">{fullName || "this user"}</span>?
+            You are about to clone{" "}
+            <span className="font-medium">{fullName || "this user"}</span>.
           </p>
 
-          <p className="text-muted-foreground">
-            This cannot be persisted and will only simulate the action.
-          </p>
+          <p className="text-muted-foreground">Email: {user.email}</p>
         </div>
 
         <DialogFooter>
@@ -57,8 +55,8 @@ const UserDeleteDialog = ({ user, open, onOpenChange }: TProps) => {
             Cancel
           </Button>
 
-          <Button type="button" variant="destructive" onClick={confirmHandler}>
-            Delete User
+          <Button type="button" onClick={confirmHandler}>
+            Clone User
           </Button>
         </DialogFooter>
       </DialogContent>
@@ -66,4 +64,4 @@ const UserDeleteDialog = ({ user, open, onOpenChange }: TProps) => {
   );
 };
 
-export default UserDeleteDialog;
+export default UserCloneDialog;

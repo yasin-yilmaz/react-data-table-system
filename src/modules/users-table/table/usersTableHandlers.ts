@@ -5,7 +5,7 @@ import {
   Updater,
 } from "@tanstack/react-table";
 
-import { USER_FILTER_DEFS } from "@/constants/userFilters";
+import { USER_FILTER_DEFS } from "@/modules/users-table/constants/userFilters";
 
 type TSetQuery = (params: Record<string, unknown>) => void;
 

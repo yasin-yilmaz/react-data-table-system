@@ -9,16 +9,16 @@ import {
 import { useDebounce } from "use-debounce";
 import type { ColumnFiltersState, SortingState } from "@tanstack/react-table";
 
+import DataTable from "@/components/data-table/DataTable";
+
 import {
   USER_FILTER_DEFS,
   USER_FILTER_QUERY_PARSERS,
-} from "@/constants/userFilters";
+} from "@/modules/users-table/constants/userFilters";
+import useUsers from "@/modules/users-table/hooks/useUsers";
+import { createTableHandlers } from "@/modules/users-table/table/usersTableHandlers";
 
-import DataTable from "@/components/data-table/DataTable";
-import { createTableHandlers } from "@/components/data-table/handlers";
-import useUsers from "@/hooks/useUsers";
-
-import { userColumns } from "./userColumns";
+import { userColumns } from "../table/userColumns";
 
 const UsersTable = () => {
   const [{ q, page, pageSize, sort, ...filterValues }, setQuery] =
@@ -32,7 +32,9 @@ const UsersTable = () => {
 
   const columnFilters: ColumnFiltersState = USER_FILTER_DEFS.flatMap(
     (filter) => {
-      const value = filterValues[filter.queryKey];
+      const value = (filterValues as { [key: string]: string | null })[
+        filter.queryKey
+      ];
 
       return value ? [{ id: filter.id, value }] : [];
     },
@@ -113,6 +115,7 @@ const UsersTable = () => {
       columnFilters={columnFilters}
       onColumnFiltersChange={handleColumnFiltersChange}
       onSortingChange={handleSortingChange}
+      filters={USER_FILTER_DEFS}
     />
   );
 };

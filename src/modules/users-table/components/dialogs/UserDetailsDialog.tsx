@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/dialog";
 
 import { printDate } from "@/helpers/date.helper";
-import type { TUser } from "@/types/User.type";
+import type { TUser } from "@/modules/users-table/types/User.type";
 
 type Props = {
   user: TUser;
