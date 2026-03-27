@@ -130,5 +130,6 @@ export const userColumns: ColumnDef<TUser>[] = [
     enableHiding: false,
     enableSorting: false,
     size: 64,
+    maxSize: 120,
   },
 ];

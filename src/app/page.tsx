@@ -10,7 +10,7 @@ const HomePage = () => {
       <div className="mb-4 flex justify-end">
         <ModeToggle />
       </div>
-      <Suspense fallback={<div>Loading table...</div>}>
+      <Suspense fallback={<div>Loading user table...</div>}>
         <UsersTable />
       </Suspense>
     </main>

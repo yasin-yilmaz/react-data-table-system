@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+import { Toaster } from "sonner";
+
 import "@/styles/main.css";
 
 import { PropsWithChildren } from "react";
@@ -30,6 +32,7 @@ export default function RootLayout({ children }: Props) {
             <QueryProvider>{children}</QueryProvider>
           </NuqsAdapter>
         </ThemeProvider>
+        <Toaster richColors position="top-right" />
       </body>
     </html>
   );

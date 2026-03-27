@@ -53,7 +53,6 @@ export const createTableHandlers = ({
       page: 0,
     });
   };
-
   const handleColumnFiltersChange = (updater: Updater<ColumnFiltersState>) => {
     const nextFilters = resolveUpdater(updater, columnFilters);
     const activeFilter = nextFilters[0];

@@ -7,10 +7,18 @@ import {
   useQueryStates,
 } from "nuqs";
 import { useDebounce } from "use-debounce";
-import type { ColumnFiltersState, SortingState } from "@tanstack/react-table";
+
+import { getTableErrorMessage } from "@/lib/utils";
 
 import DataTable from "@/components/data-table/DataTable";
+import { useErrorToast } from "@/hooks/useErrorToast";
 
+import {
+  mapColumnFiltersToPayload,
+  mapQueryToColumnFilters,
+  mapSortingToBackendSorting,
+  mapSortQueryToSorting,
+} from "@/helpers/table.helper";
 import {
   USER_FILTER_DEFS,
   USER_FILTER_QUERY_PARSERS,
@@ -30,40 +38,12 @@ const UsersTable = () => {
       ...USER_FILTER_QUERY_PARSERS,
     });
 
-  const columnFilters: ColumnFiltersState = USER_FILTER_DEFS.flatMap(
-    (filter) => {
-      const value = (filterValues as { [key: string]: string | null })[
-        filter.queryKey
-      ];
-
-      return value ? [{ id: filter.id, value }] : [];
-    },
+  const columnFilters = mapQueryToColumnFilters(
+    USER_FILTER_DEFS,
+    filterValues as Record<string, string | null>,
   );
 
-  const sorting: SortingState = (() => {
-    if (!sort) return [];
-
-    const [id = "", direction] = sort.split(".");
-
-    return [
-      {
-        id,
-        desc: direction === "desc",
-      },
-    ];
-  })();
-
-  const getSortKey = (columnId: string) => {
-    const column = userColumns.find((col) => col.id === columnId);
-    return column?.meta?.sortKey ?? columnId;
-  };
-
-  const backendSorting: SortingState = sorting.map((item) => ({
-    ...item,
-    id: getSortKey(item.id),
-  }));
-
-  const [debouncedSearch] = useDebounce(q, 500);
+  const sorting = mapSortQueryToSorting(sort);
 
   const {
     handlePaginationChange,
@@ -78,29 +58,29 @@ const UsersTable = () => {
     setQuery,
   });
 
-  const { data, isLoading, isError, error } = useUsers({
+  const [debouncedSearch] = useDebounce(q, 500);
+  const backendSorting = mapSortingToBackendSorting(sorting, userColumns);
+  const backendFilters = mapColumnFiltersToPayload(columnFilters);
+
+  const { data, isLoading, isError, error, refetch } = useUsers({
     pageIndex: page,
     pageSize,
     sorting: backendSorting,
     search: debouncedSearch,
-    filters: columnFilters.map((filter) => ({
-      id: filter.id,
-      value: String(filter.value),
-    })),
+    filters: backendFilters,
   });
 
-  if (isError)
-    return (
-      <div className="rounded-sm border p-4 text-sm text-red-500">
-        {error instanceof Error ? error.message : "Something went wrong."}
-      </div>
-    );
+  useErrorToast(error);
+
+  const tableErrorMessage = getTableErrorMessage(error);
 
   return (
     <DataTable
       data={data?.users || []}
       total={data?.total || 0}
       columns={userColumns}
+      error={isError ? tableErrorMessage : null}
+      onRetry={refetch}
       isLoading={isLoading}
       leftPinnedColumnIds={["select", "id", "name"]}
       rightPinnedColumnIds={["actions"]}

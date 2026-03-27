@@ -1,3 +1,5 @@
+import { fetchJson } from "@/lib/api/fetchJson";
+
 import {
   TUsersQueryParams,
   TUsersResponse,
@@ -57,14 +59,19 @@ const getUsers = async ({
   } else if (activeFilter) {
     endpoint = `${BASE_URL}/filter`;
     searchParams.set("key", activeFilter.id);
-    searchParams.set("value", activeFilter.value);
+    searchParams.set("value", String(activeFilter.value));
   }
 
-  const response = await fetch(`${endpoint}?${searchParams.toString()}`, {
-    cache: "no-store",
-  });
+  const data = await fetchJson<TUsersResponse>(
+    `${endpoint}?${searchParams.toString()}`,
+    {
+      cache: "no-store",
+    },
+  );
 
-  const data: TUsersResponse = await response.json();
+  if (!Array.isArray(data.users)) {
+    throw new Error("Invalid API response.");
+  }
 
   return data;
 };

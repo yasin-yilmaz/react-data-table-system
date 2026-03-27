@@ -19,7 +19,7 @@ type Props<TData> = {
   table: Table<TData>;
   searchValue: string;
   onSearchChange: (value: string) => void;
-  minSearchLength?: number;
+
   onReset?: () => void;
   filters?: TFilterDef[];
 };
@@ -28,7 +28,7 @@ const TableToolbar = <TData,>({
   table,
   searchValue,
   onSearchChange,
-  minSearchLength,
+
   onReset,
   filters,
 }: Props<TData>) => {
@@ -54,11 +54,7 @@ const TableToolbar = <TData,>({
   return (
     <div className="flex items-center justify-between gap-3 py-4">
       <div className="flex items-center gap-2">
-        <TableSearch
-          value={searchValue}
-          onChange={onSearchChange}
-          minSearchLength={minSearchLength}
-        />
+        <TableSearch value={searchValue} onChange={onSearchChange} />
 
         <TableFilters table={table} filters={filters} />
       </div>

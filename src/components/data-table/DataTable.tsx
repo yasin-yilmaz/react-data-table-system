@@ -1,7 +1,6 @@
 import { useState } from "react";
 
 import {
-  Column,
   ColumnDef,
   ColumnFiltersState,
   flexRender,
@@ -13,17 +12,12 @@ import {
   VisibilityState,
 } from "@tanstack/react-table";
 
-import TableMessageRow from "@/components/data-table/TableMessageRow";
+import DataTableBody from "@/components/data-table/DataTableBody";
 import TablePagination from "@/components/data-table/TablePagination";
 import TableToolbar from "@/components/data-table/TableToolbar";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Table, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+
+import getColumnStyle from "./helpers/getColumnPinningStyle";
 
 import { TFilterDef } from "@/types/Table.type";
 
@@ -31,16 +25,23 @@ type Props<TData> = {
   columns: ColumnDef<TData>[];
   data: TData[];
   total: number;
+
   isLoading?: boolean;
+  error?: string | null;
+  onRetry?: () => void;
+
   pagination: PaginationState;
   onPaginationChange: OnChangeFn<PaginationState>;
+
   sorting: SortingState;
   onSortingChange: OnChangeFn<SortingState>;
+
   globalFilter: string;
   onGlobalFilterChange: (value: string) => void;
+
   columnFilters: ColumnFiltersState;
   onColumnFiltersChange: OnChangeFn<ColumnFiltersState>;
-  minSearchLength?: number;
+
   leftPinnedColumnIds?: string[];
   rightPinnedColumnIds?: string[];
   filters?: TFilterDef[];
@@ -49,24 +50,31 @@ type Props<TData> = {
 const DataTable = <TData,>({
   columns,
   data,
-  total = 0,
+  total,
+
   isLoading = false,
+  error = null,
+  onRetry,
+
   pagination,
   onPaginationChange,
+
   sorting,
   onSortingChange,
+
   globalFilter,
   onGlobalFilterChange,
+
   columnFilters,
   onColumnFiltersChange,
-  minSearchLength,
+
   leftPinnedColumnIds = [],
   rightPinnedColumnIds = [],
-  filters,
+  filters = [],
 }: Props<TData>) => {
-  "use no memo";
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
 
+  // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
     data,
     columns,
@@ -95,22 +103,8 @@ const DataTable = <TData,>({
     manualPagination: true,
     manualSorting: true,
   });
-  const rows = table.getRowModel().rows;
+
   const colSpan = table.getAllLeafColumns().length;
-
-  const getColumnStyle = (column: Column<TData>) => {
-    const pinned = column.getIsPinned();
-
-    return {
-      position: pinned ? ("sticky" as const) : undefined,
-      left: pinned === "left" ? `${column.getStart("left")}px` : undefined,
-      right: pinned === "right" ? `${column.getAfter("right")}px` : undefined,
-      zIndex: pinned ? 2 : undefined,
-      width: column.getSize(),
-      minWidth: column.columnDef.minSize,
-      maxWidth: column.columnDef.maxSize,
-    };
-  };
 
   return (
     <>
@@ -118,7 +112,6 @@ const DataTable = <TData,>({
         table={table}
         searchValue={globalFilter}
         onSearchChange={onGlobalFilterChange}
-        minSearchLength={minSearchLength}
         filters={filters}
         onReset={() => {
           onGlobalFilterChange("");
@@ -159,33 +152,13 @@ const DataTable = <TData,>({
                 );
               })}
             </TableHeader>
-            <TableBody>
-              {isLoading ? (
-                <TableMessageRow colSpan={colSpan} message="Loading..." />
-              ) : rows.length ? (
-                rows.map((row) => (
-                  <TableRow key={row.id} className="group hover:bg-muted">
-                    {row.getVisibleCells().map((cell) => {
-                      const style = getColumnStyle(cell.column);
-                      return (
-                        <TableCell
-                          key={cell.id}
-                          className="bg-background group-hover:bg-muted whitespace-nowrap"
-                          style={style}
-                        >
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext(),
-                          )}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                ))
-              ) : (
-                <TableMessageRow colSpan={colSpan} message="No Data!" />
-              )}
-            </TableBody>
+            <DataTableBody
+              table={table}
+              colSpan={colSpan}
+              isLoading={isLoading}
+              error={error}
+              onRetry={onRetry}
+            />
           </Table>
         </div>
       </div>
