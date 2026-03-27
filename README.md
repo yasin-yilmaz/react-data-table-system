@@ -1,36 +1,245 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🧩 Data Table System (React + Next.js + TanStack Table)
 
-## Getting Started
+A reusable, server-driven data table system built with React and Next.js.
+Focused on clean architecture, scalability, and real-world API integration.
 
-First, run the development server:
+---
+
+## 🚀 Features
+
+- 🔍 Server-side search (debounced)
+- 🔃 Server-side sorting & pagination
+- 🎯 Column-based filtering
+- 📌 Sticky (pinned) columns
+- ⚡ URL query state sync (nuqs)
+- 🧱 Modular and reusable architecture
+- 🔁 Table helpers for mapping logic
+- 🌍 Centralized API & environment config
+- ❗ Unified error handling & toast system
+
+---
+
+## 🏗️ Architecture
+
+### UI Components
+
+```txt
+/components/data-table/
+```
+
+- `DataTable`
+- `DataTableHeader`
+- `DataTableBody`
+- `TableToolbar`
+- `TablePagination`
+- `TableWrapper`
+
+All components are **fully controlled via props**.
+
+---
+
+### Table Helpers
+
+```txt
+/helpers/table.helper.ts
+```
+
+Handles mapping between:
+
+- Query → Table state
+- Table state → Backend format
+
+---
+
+### API Layer
+
+```txt
+/lib/api/fetchJson.ts
+```
+
+- Centralized fetch wrapper
+- Consistent error handling
+- Safe JSON parsing
+
+---
+
+### Environment Config
+
+```txt
+/lib/config/env.ts
+```
+
+All environment variables are managed centrally.
+
+---
+
+### Feature Module (Users)
+
+```txt
+/modules/users-table/
+```
+
+- `useUsers` → data fetching hook
+- `getUsers` → API logic
+- `userColumns` → column definitions
+- `userFilters` → filter config
+
+---
+
+## 🔄 Data Flow
+
+```txt
+URL (query params)
+      ↓
+nuqs (state sync)
+      ↓
+table helpers (mapping)
+      ↓
+useUsers (API hook)
+      ↓
+fetchJson (network layer)
+      ↓
+DataTable (render)
+```
+
+---
+
+## ⚙️ Installation & Setup
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/your-username/your-repo.git
+cd your-repo
+```
+
+---
+
+### 2. Install dependencies
+
+```bash
+npm install
+```
+
+---
+
+### 3. Run development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+### 4. Build for production
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run build
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 5. Start production server
 
-## Deploy on Vercel
+```bash
+npm run start
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🌍 Environment Variables
+
+Create a `.env.local` file in the root directory:
+
+```bash
+NEXT_PUBLIC_API_BASE_URL=https://dummyjson.com
+```
+
+Used as the base URL for API requests.
+
+---
+
+## 🧪 Available Scripts
+
+```bash
+npm run dev      # start development server
+npm run build    # build for production
+npm run start    # start production server
+npm run lint     # run linter
+```
+
+---
+
+## ❗ Error Handling
+
+- API errors handled in `fetchJson`
+- UI-safe messages via `getTableErrorMessage`
+- Toast notifications via `useErrorToast`
+
+---
+
+## 🧠 Design Decisions
+
+### Why server-side data?
+
+- Better scalability
+- Handles large datasets
+- Matches real-world backend APIs
+
+---
+
+### Why separate helpers?
+
+- Avoid duplicated logic
+- Keep components clean
+- Improve maintainability
+
+---
+
+### Why centralized env config?
+
+- Prevent hardcoded values
+- Easier environment management
+- Safer production setup
+
+---
+
+## 📦 Reusability
+
+This system can be reused for:
+
+- users
+- products
+- orders
+- any API-driven dataset
+
+Only change:
+
+- columns
+- filters
+- API function
+
+---
+
+## 🛠️ Tech Stack
+
+- React
+- Next.js
+- TanStack Table
+- TypeScript
+- Tailwind CSS
+
+---
+
+## 👨‍💻 Author
+
+**Yasin Yılmaz**
+Frontend Developer (React & Next.js)
+
+- GitHub: https://github.com/yasin-yilmaz

@@ -1,11 +1,10 @@
 import { fetchJson } from "@/lib/api/fetchJson";
 
+import { BASE_URL } from "@/config";
 import {
   TUsersQueryParams,
   TUsersResponse,
 } from "@/modules/users-table/types/User.type";
-
-const BASE_URL = "https://dummyjson.com/users";
 
 const getSortingParams = (sorting?: TUsersQueryParams["sorting"]) => {
   const currentSort = sorting?.[0];
@@ -30,6 +29,7 @@ const getUsers = async ({
   search,
   filters,
 }: TUsersQueryParams): Promise<TUsersResponse> => {
+  let endpoint = `${BASE_URL}/users`;
   const limit = pageSize;
   const skip = pageIndex * pageSize;
 
@@ -50,8 +50,6 @@ const getUsers = async ({
 
   const trimmedSearch = search?.trim();
   const activeFilter = filters?.[0];
-
-  let endpoint = BASE_URL;
 
   if (trimmedSearch) {
     endpoint = `${BASE_URL}/search`;
