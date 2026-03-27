@@ -3,7 +3,6 @@ import { useState } from "react";
 import {
   ColumnDef,
   ColumnFiltersState,
-  flexRender,
   getCoreRowModel,
   OnChangeFn,
   PaginationState,
@@ -15,9 +14,10 @@ import {
 import DataTableBody from "@/components/data-table/DataTableBody";
 import TablePagination from "@/components/data-table/TablePagination";
 import TableToolbar from "@/components/data-table/TableToolbar";
-import { Table, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Table } from "@/components/ui/table";
 
-import getColumnStyle from "./helpers/getColumnPinningStyle";
+import DataTableHeader from "./DataTableHeader";
+import TableWrapper from "./TableWrapper";
 
 import { TFilterDef } from "@/types/Table.type";
 
@@ -124,44 +124,18 @@ const DataTable = <TData,>({
           table.resetColumnVisibility();
         }}
       />
-      <div className="overflow-hidden rounded-sm border">
-        <div className="overflow-x-auto">
-          <Table className="min-w-max">
-            <TableHeader>
-              {table.getHeaderGroups().map((headerGroup) => {
-                return (
-                  <TableRow className="bg-white" key={headerGroup.id}>
-                    {headerGroup.headers.map((header) => {
-                      const style = getColumnStyle(header.column);
-                      return (
-                        <TableHead
-                          key={header.id}
-                          className="bg-background whitespace-nowrap"
-                          style={{ ...style }}
-                        >
-                          {header.isPlaceholder
-                            ? null
-                            : flexRender(
-                                header.column.columnDef.header,
-                                header.getContext(),
-                              )}
-                        </TableHead>
-                      );
-                    })}
-                  </TableRow>
-                );
-              })}
-            </TableHeader>
-            <DataTableBody
-              table={table}
-              colSpan={colSpan}
-              isLoading={isLoading}
-              error={error}
-              onRetry={onRetry}
-            />
-          </Table>
-        </div>
-      </div>
+      <TableWrapper>
+        <Table className="min-w-max">
+          <DataTableHeader table={table} />
+          <DataTableBody
+            table={table}
+            colSpan={colSpan}
+            isLoading={isLoading}
+            error={error}
+            onRetry={onRetry}
+          />
+        </Table>
+      </TableWrapper>
       <TablePagination table={table} />
     </>
   );
