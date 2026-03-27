@@ -33,7 +33,7 @@ const UserActionCell = ({ user }: TProps) => {
 
   return (
     <>
-      <div className="flex justify-center">
+      <div className="flex justify-start">
         <DropdownMenu>
           <DropdownMenuTrigger
             render={

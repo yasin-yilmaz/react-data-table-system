@@ -48,11 +48,11 @@ const DataTableBody = <TData,>({
     bodyContent = renderErrorRow();
   } else if (rows.length > 0) {
     bodyContent = rows.map((row) => (
-      <TableRow key={row.id} className="group hover:bg-muted">
+      <TableRow key={row.id} className="group">
         {row.getVisibleCells().map((cell) => (
           <TableCell
             key={cell.id}
-            className="bg-background group-hover:bg-muted whitespace-nowrap"
+            className="whitespace-nowrap"
             style={getColumnStyle(cell.column)}
           >
             {flexRender(cell.column.columnDef.cell, cell.getContext())}
